@@ -5,9 +5,9 @@
     3). API接口/接口文档/测试接口
     
 ## 2. 启动项目开发
-    1). 使用react脚手架创建项目
-    2). 开发环境运行: npm start
-    3). 生产环境打包运行: npm run build   serve build
+    1). 使用react脚手架创建项目: create-react-app app_name
+    2). 开发环境运行: yarn start
+    3). 生产环境打包运行: yarn run build   serve build
 
 ## 3. git管理项目
     1). 创建远程仓库
