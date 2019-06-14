@@ -13,6 +13,7 @@ const Item = Form.Item
 
 /* 
 登陆的一级路由组件
+使用Form组件
 */
 export default class Login extends React.Component {
 
