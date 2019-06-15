@@ -69,3 +69,38 @@
       Input
       Icon
       Button
+
+## 1. 高阶函数
+    1). 是什么?
+        返回值是函数
+        参数是函数
+    2). 常用的
+        定时器: setTimeout()/setInterval()
+        数组遍历相关方法: forEach()/map()/filter()/find()
+        jQuery: $(function(){}), $.get(() => {})
+        Promise: Promise构造/then()
+        高阶组件
+    3). 更加具有扩展/更动态/更强大
+
+## 2. 高阶组件(HOC)
+    1). 是什么?
+       本质是一个函数。
+       参数为组件，返回值为新组件
+       const WrapperComponent = higherOrderComponent(Component);
+    2). 大概实现
+        function higherOrderComponent(Component) {
+            const form = {
+                validateFields () {},
+                getFieldValue () {},
+                getFieldDecorator () {},
+            }
+            return class WrapperComp extends React.Component {
+                render () {
+                    // 包装组件内部返回被包装组件的标签
+                    // 负责向被包装传递特定的标签属性, 来扩展它的功能
+                    return <Component form={form}></Component>
+                }
+            }
+        }
+    3). 作用:
+        较动态扩展组件的功能
