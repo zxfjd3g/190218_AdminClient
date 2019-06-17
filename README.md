@@ -172,3 +172,21 @@
             在返回promise的表达式左侧写await: 不想要promise, 想要promise异步执行的成功的value数据
         c. 哪里写async?
             await所在函数(最近的)定义的左侧写async
+
+# day03
+## 功能实现
+    1. 登陆成功后, 跳转到admin界面, 显示登陆的用户名 
+    2. 访问admin界面, 如果没有登陆, 自动跳转到登陆界面
+    3. 在刷新时, 如果已经登陆, 保持登陆
+    4. 自动/免登陆
+    5. 访问login界面, 如果已经登陆, 自动跳转到admin
+
+
+
+## 实现路由跳转
+    1. 通过点击路由链接
+        <Link to="/xxx"> Xxx</Link>
+    2. 在点击回调函数中执行:
+        this.props.history.push/replace('/xxx')
+    3. 在render()中自动跳转路由
+        return <Redirect to="/xxx">

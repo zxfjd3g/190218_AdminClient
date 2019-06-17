@@ -4,13 +4,16 @@ import {
   Icon, 
   Input,
   Button, 
+  message
 } from 'antd'
+import { Redirect } from "react-router-dom";
 
-import logo from "./images/logo.png";
+import { reqLogin } from "../../api";
+import logo from "./images/logo.png"
 import './login.less'
+import memoryUtils from '../../utils/memoryUtils'
 
 const Item = Form.Item
-const Xxx = Form.Item
 /* 
 登陆的一级路由组件
 */
@@ -21,9 +24,22 @@ class Login extends React.Component {
     event.preventDefault()
 
     // 统一进行所有表单项的验证
-    this.props.form.validateFields((err, values) => {
+    this.props.form.validateFields(async (err, values) => {
       if (!err) { // 验证成功了
-        console.log('发登陆ajax请求: ', values)
+        // console.log('发登陆ajax请求: ', values)
+        const {username, password} = values
+        const result = await reqLogin(username, password) // {status: 0, data: user对象} | {status: 1, msg: 'xxx'}
+        // 如果登陆成功了
+        if (result.status===0) {
+          // 保存用户信息
+          const user = result.data
+          localStorage.setItem('USER-KEY', JSON.stringify(user))// 保存了local文件中
+          memoryUtils.user = user // 保存在内存中
+          // 跳转到admin界面
+          this.props.history.replace('/')
+        } else { // 如果登陆失败了
+          message.error(result.msg, 2)
+        }
       }
     })
 
@@ -60,6 +76,11 @@ class Login extends React.Component {
 
   render () {
     const { getFieldDecorator } = this.props.form
+
+    // 访问login界面, 如果已经登陆, 自动跳转到admin
+    if (memoryUtils.user._id) {
+      return <Redirect to="/"/>
+    }
 
     return (
       <div className="login">

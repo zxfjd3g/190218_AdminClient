@@ -41,19 +41,19 @@ export default function ajax(url, data = {}, method="GET") {
 }
 
 
-async function login() {
-  /*
-  try {
+// async function login() {
+  
+ /*  try {
     const response = await ajax('/login', {
       username: 'admin',
       password: 'admin'
     }, 'POST')
   } catch (error) { // 处理请求异常
     alert('请求出错: ' + error.message)
-  }
-  */
-  /*
-  const response = await ajax('/login', {
+  } */
+ 
+  
+  /* const response = await ajax('/login', {
     username: 'admin',
     password: 'admin'
   }, 'POST')
@@ -62,9 +62,9 @@ async function login() {
 
   } else {
 
-  }
-  */
-  const result = await ajax('/login', { // result就是response.data
+  } */
+ 
+  /* const result = await ajax('/login', { // result就是response.data
       username: 'admin',
       password: 'admin'
     }, 'POST')
@@ -72,7 +72,7 @@ async function login() {
 
   } else {
 
-  }
+  } */
   
-}
+// }
 
