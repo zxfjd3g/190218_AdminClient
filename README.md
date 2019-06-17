@@ -190,3 +190,11 @@
         this.props.history.push/replace('/xxx')
     3. 在render()中自动跳转路由
         return <Redirect to="/xxx">
+
+
+## 快捷键
+    删除一行: ctrl + D
+    单行注释: ctrl + /
+    多行注释: ctrl + shift + /
+    显示所有命令: ctrl + 1
+    查找要打开的文件: ctrl + E
