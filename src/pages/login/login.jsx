@@ -9,9 +9,10 @@ import {
 import { Redirect } from "react-router-dom";
 
 import { reqLogin } from "../../api";
-import logo from "./images/logo.png"
+import logo from "../../assets/images/logo.png"
 import './login.less'
 import memoryUtils from '../../utils/memoryUtils'
+import {saveUser} from '../../utils/storageUtils'
 
 const Item = Form.Item
 /* 
@@ -33,7 +34,7 @@ class Login extends React.Component {
         if (result.status===0) {
           // 保存用户信息
           const user = result.data
-          localStorage.setItem('USER-KEY', JSON.stringify(user))// 保存了local文件中
+          saveUser(user)// 保存了local文件中
           memoryUtils.user = user // 保存在内存中
           // 跳转到admin界面
           this.props.history.replace('/')
