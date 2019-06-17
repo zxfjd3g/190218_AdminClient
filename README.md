@@ -174,32 +174,77 @@
             await所在函数(最近的)定义的左侧写async
 
 # day03
-## 功能实现
-    1. 登陆成功后, 跳转到admin界面, 显示登陆的用户名 
-    2. 访问admin界面, 如果没有登陆, 自动跳转到登陆界面
-    3. 在刷新时, 如果已经登陆, 保持登陆
-    4. 自动/免登陆
-    5. 访问login界面, 如果已经登陆, 自动跳转到admin
+## 1. 实现登陆(包含自动登陆)
+    小功能点实现:
+        1. 登陆成功后, 跳转到admin界面, 显示登陆的用户名 
+        2. 访问admin界面, 如果没有登陆, 自动跳转到登陆界面
+        3. 在刷新时, 如果已经登陆, 保持登陆
+        4. 自动/免登陆
+        5. 访问login界面, 如果已经登陆, 自动跳转到admin
+    login.jsx
+        1). 调用登陆的接口请求
+        2). 如果失败, 显示错误提示信息
+        3). 如果成功了:
+            保存user到local/内存中
+            跳转到admin
+        4). 如果内存中的user有值, 自动跳转到admin
+    src/index.js
+        读取local中user到内存中保存
+    admin.jsx
+        判断如果内存中没有user(_id没有值), 自动跳转到login
+    storageUtils.js
+        包含使用localStorage来保存user相关操作的工具模块
+        使用第三库store
+            简化编码
+            兼容不同的浏览器
+    memoryUtils.js
+        用来在内存中保存数据(user)的工具类
+
+    路由跳转方式
+        1. 通过点击路由链接  ===> 声明式路由跳转
+            <Link to="/xxx"> Xxx</Link>
+        2. 在点击回调函数中执行:  ===> 编程式路由跳转
+            this.props.history.push/replace('/xxx')
+        3. 在render()中自动跳转路由
+            return <Redirect to="/xxx">
+        
+## 4. 搭建admin的整体界面结构
+    1). 整体布局使用antd的Layout组件
+    2). 拆分组件
+        LeftNav: 左侧导航
+        Header: 右侧头部
+    3). 子路由
+        定义路由组件
+        注册路由
+        
+## 3. LeftNav组件
+    1). 使用antd的组件
+        Menu / Item / SubMenu
+    
+    2). 使用react-router
+        withRouter(): 包装非路由组件, 给其传入history/location/match属性
+        history: push()/replace()/goBack()
+        location: pathname属性
+        match: params属性
+    
+    3). componentWillMount与componentDidMount的比较
+        componentWillMount: 在第一次render()前调用一次, 为第一次render()准备数据(同步)
+        componentDidMount: 在第一次render()之后调用一次, 启动异步任务, 后面异步更新状态重新render
+    
+    4). 根据动态生成Item和SubMenu的数组
+        map() + 递归: 多级菜单列表
+        reduce() + 递归: 多级菜单列表
+    
+    5). 2个问题?
+        刷新时, 如何选中对应的菜单项?
+            selectedKey是当前请求的path
+        刷新时, 如何默认展开对应的Submenu?
+            openKey是 一级列表项的某个子菜单项是当前对应的菜单项
 
 
-
-## 实现路由跳转
-    1. 通过点击路由链接
-        <Link to="/xxx"> Xxx</Link>
-    2. 在点击回调函数中执行:
-        this.props.history.push/replace('/xxx')
-    3. 在render()中自动跳转路由
-        return <Redirect to="/xxx">
-
-
-## 快捷键
+## 4. 快捷键
     删除一行: ctrl + D
     单行注释: ctrl + /
     多行注释: ctrl + shift + /
     显示所有命令: ctrl + 1
     查找要打开的文件: ctrl + E
-
-
-## 功能
-    1). 默认选中对应的item
-    2). 默认展开Submenu

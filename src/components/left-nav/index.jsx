@@ -119,11 +119,15 @@ class LeftNav extends Component {
     }, [])
   }
 
-
-
+  // 在第一次render()之后
+  // componentDidMount () {
+  // 在第一次render()之前
+  componentWillMount () {
+    this.menuNodes = this.getMenuNodes2(menuList)
+  }
 
   render() {
-    const menuNodes = this.getMenuNodes2(menuList)
+    
     // 将请求的路由路径作为选中的key
     const selectedKey = this.props.location.pathname
     // 得到要展开Submenu的key值
@@ -143,7 +147,7 @@ class LeftNav extends Component {
           defaultOpenKeys={[openKey]}
         >
           {
-            menuNodes
+            this.menuNodes
           }
 
           {/* <Item key="/home">

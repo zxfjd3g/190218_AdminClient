@@ -26,6 +26,8 @@ export default class Admin extends React.Component {
 
   render() {
 
+    debugger
+
     // 如果当前没有登陆(内存的user中没有_id)
     const user = memoryUtils.user
     if (!user._id) {
