@@ -272,8 +272,8 @@
         Modal组件显示提示
         清除保存的user
         跳转到login
-    7). 抽取通用的类链接按钮组件
-        通过...透传所有接收的属性: <Button {...props} />    <LinkButton>xxxx</LinkButton>
+    7). 抽取通用的类链接按钮组件: LinkButton
+        通过...透传所有接收的属性: <button {...props} />   <LinkButton onClick={}>xxxx</LinkButton>
         组件标签的所有子节点都会成为组件的children属性
         
 ## 2. jsonp解决ajax跨域的原理
@@ -288,4 +288,24 @@
         浏览器端:
             收到响应自动执行函数调用的js代码, 也就执行了提前定义好的回调函数, 并得到了需要的结果数据
 
-## 3. 
+## 3. Category分类管理组件
+### 1). 使用antd组件构建分类列表界面
+    Card
+    Table
+    Button
+    Icon
+        
+### 2). 相关接口请求函数
+    获取一级/二级分类列表
+        
+### 4). 异步显示一级分类列表    
+    设计一级分类列表的状态: categorys
+    异步获取一级分类列表: componentDidMount(){}
+    更新状态, 显示
+
+### 4). 显示二级分类列表
+    设计状态: subCategorys / parentId / parentName
+    显示二级分类列表: 根据parentId状态值, 异步获取分类列表
+    setState()的问题
+        setState()更新状态是异步更新的, 直接读取状态值还是旧的状态值
+        setState({}, [callback]), 回调函数是在状态更新且界面更新之后执行, 可以在此获取最新的状态

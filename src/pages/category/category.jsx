@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
-import {Card, Table, Button, Icon} from 'antd'
+import { Card, Table, Button, Icon, Modal} from 'antd'
 
 
 import {reqCategorys} from '../../api'
 import LinkButton from '../../components/link-button'
+import UpdateForm from './update-form'
 
 /* 
 Admin的分类管理子路由
@@ -16,6 +17,7 @@ export default class Category extends Component {
     categorys: [], // 一级分类数组
     subCategorys: [], // 二级分类数组
     loading: false, // 是否显示loading界面
+    showStatus: 0, // 0: 都不显示, 1: 修改, 2: 添加
   }
 
   /* 
@@ -81,8 +83,11 @@ export default class Category extends Component {
         render: (category) => {// 参数为当前行的数据
           return (
             <span>
-              <LinkButton>修改分类</LinkButton>
-              <LinkButton onClick={() => this.showSubCategorys(category)}>查看子分类</LinkButton>
+              <LinkButton onClick={() => this.showUpdate(category)}>修改分类</LinkButton>
+              {
+                this.state.parentId === '0' && <LinkButton onClick={() => this.showSubCategorys(category)}>查看子分类</LinkButton>
+              }
+              
             </span>
           )
         }
@@ -102,6 +107,38 @@ export default class Category extends Component {
     })
   }
 
+
+  /* 
+  显示更新的界面
+  */
+  showUpdate = category => {
+    // 保存cateogory
+    this.category = category
+    // 更新状态
+    this.setState({
+      showStatus: 1
+    })
+  }
+
+  /* 
+  更新分类
+  */
+  updateCategory = () => {
+    // 进行表单验证
+    this.form.validateFields((err, values) => {
+      if (!err) { // 只有验证通过才继续
+        // 得到输入的分类名称
+        const categoryName = this.form.getFieldValue('categoryName')
+        // 得到分类的_id
+        const categoryId = this.category._id
+
+        console.log('发更新请求', categoryName, categoryId)
+      }
+    })
+   
+
+  }
+
   componentWillMount () {
     this.initColumns()
   }
@@ -114,7 +151,10 @@ export default class Category extends Component {
   render() {
 
     // 读取状态数据
-    const { categorys, subCategorys, loading, parentId, parentName} = this.state
+    const { categorys, subCategorys, loading, parentId, parentName, showStatus} = this.state
+
+    // 读取当前指定的分类
+    const category = this.category || {}
 
     // 定义Card的左侧标题
     const title = parentId==='0' ? '一级分类列表' : (
@@ -142,6 +182,15 @@ export default class Category extends Component {
           dataSource={parentId==='0' ? categorys : subCategorys}
           pagination={{ defaultPageSize: 5, showQuickJumper: true}}
         />
+
+        <Modal
+          title="更新分类"
+          visible={showStatus===1}
+          onOk={this.updateCategory}
+          onCancel={() => this.setState({ showStatus: 0 })}
+        >
+          <UpdateForm categoryName={category.name} setForm={(form) => this.form = form}/>
+        </Modal>
       </Card>
     )
   }
