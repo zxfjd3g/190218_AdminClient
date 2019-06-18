@@ -22,6 +22,12 @@ export const reqLogin = (username, password) => ajax(BASE + '/login', {username,
 export const reqAddUser = (user) => ajax(BASE + '/manage/user/add', user, 'POST')
 
 
+// 获取分类列表(一级/二级)
+export const reqCategorys = (parentId) => ajax(BASE + '/manage/category/list', {parentId})
+
+
+
+
 // 简单测试一下
 /* reqLogin('admin', 'admin').then(result => {
   console.log('result', result)
@@ -43,10 +49,10 @@ export const reqWeather = (location) => {
             weather
           } = data.results[0].weather_data[0]
           // 成功了, 调用reolve()指定成功的值
-          resolve({
+          resolve(
             dayPictureUrl,
             weather
-          })
+          )
         } else {
           message.error('获取天气信息失败!')
         }
