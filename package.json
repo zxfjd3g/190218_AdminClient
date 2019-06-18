@@ -15,7 +15,8 @@
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",
     "axios": "0.18.0",
-    "store": "2.0.12"
+    "store": "2.0.12",
+    "jsonp": "0.2.1"
   },
   "scripts": {
     "start": "react-app-rewired start",

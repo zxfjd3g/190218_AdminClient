@@ -57,10 +57,6 @@ class LeftNav extends Component {
           </SubMenu>
         )
       }
-
-     
-
-      return 1
     })
   }
 

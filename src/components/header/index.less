@@ -1,4 +1,48 @@
 .header {
- background-color: #fff; 
- height: 80px;
+  background-color: #fff;
+  height: 80px;
+
+  .header-top {
+    text-align: right;
+    padding-right: 30px;
+    height: 40px;
+    line-height: 40px;
+    border-bottom: 1px solid green;
+    span {
+      margin-right: 15px;
+    }
+  }
+
+  .header-bottom {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    .header-bottom-left {
+      position: relative;
+      width: 25%;
+      font-size: 20px;
+      text-align: center;
+      &::after {
+        content: '';
+        position:absolute;
+        top: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        border-top: 30px solid white;
+        border-right: 20px solid transparent;
+        border-bottom: 20px solid transparent;
+        border-left: 20px solid transparent;
+      }
+    }
+    .header-bottom-right {
+      width: 75%;
+      text-align: right;
+      padding-right: 30px;
+      img {
+        width: 30px;
+        height: 20px;
+        margin: 0 15px;
+      }
+    }
+  }
 }

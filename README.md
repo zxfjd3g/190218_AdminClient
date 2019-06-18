@@ -97,21 +97,25 @@
             
 ## 2. 高阶函数与高阶组件
     1. 高阶函数
-        1). 一类特别的函数
-            a. 接受函数类型的参数
-            b. 返回值是函数
-        2). 常见
-            a. 定时器: setTimeout()/setInterval()
-            b. Promise: Promise(() => {}) then(value => {}, reason => {})
-            c. 数组遍历相关的方法: forEach()/filter()/map()/reduce()/find()/findIndex()
-            d. 函数对象的bind()
-            e. Form.create()() / getFieldDecorator()()
-        3). 高阶函数更新动态, 更加具有扩展性
+1). 一类特别的函数
+    a. 接受函数类型的参数
+    b. 返回值是函数
+2). 常见
+    a. 定时器: setTimeout()/setInterval()
+    b. Promise: Promise(() => {}) then(value => {}, reason => {})
+    c. 数组遍历相关的方法: forEach()/filter()/map()/reduce()/find()/findIndex()
+    d. 函数对象的bind()
+    e. Form.create()() / getFieldDecorator()()
+3). 高阶函数更新动态, 更加具有扩展性
     
     2. 高阶组件
         1). 本质就是一个函数
         2). 接收一个组件(被包装组件), 返回一个新的组件(包装组件), 包装组件会向被包装组件传入特定属性
-        3). 大概实现
+        3). 常见的高阶组件
+            react-router-dom库: withRouter(非路由组件)
+            antd组件库: Form.create()(Form组件)
+            react-reudx库: connect()(UI组件)
+        4). 大概实现
             function higherOrderComponent(Component) {
                 const form = {
                     validateFields () {},
@@ -126,7 +130,7 @@
                     }
                 }
             }
-        4). 作用: 扩展组件的功能
+        5). 作用: 扩展组件的功能
         
     3. 高阶组件与高阶函数的关系
         高阶组件是特别的高阶函数: 接收一个组件函数, 返回是一个新的组件函数
