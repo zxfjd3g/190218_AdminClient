@@ -25,7 +25,6 @@ export default class Category extends Component {
     // 发请求前, 显示loading
     this.setState({ loading: true })
     const {parentId} = this.state
-    debugger
     const result = await reqCategorys(parentId)
     // 请求结束后, 隐藏loading
     this.setState({loading: false})
@@ -49,7 +48,12 @@ export default class Category extends Component {
   显示指定分类的子分类列表
   */
   showSubCategorys = (category) => {
-    debugger
+
+    /* 
+    setState()是异步更新的状态数据, 在setState()的后面直接读取状态数据是旧的数据
+    利用setState({}, callback): callback在状态数据更新且界面更新后执行
+    */
+
     // 更新parentId为当前指定分类的id
     this.setState({
       parentId: category._id,
@@ -58,6 +62,7 @@ export default class Category extends Component {
         // 获取对应的列表显示
         this.getCategorys()
     })
+
     
   }
 
@@ -85,6 +90,18 @@ export default class Category extends Component {
     ];
   }
 
+
+  /* 
+    回退显示一级列表
+  */
+  showCategorys = () => {
+    this.setState({
+      parentId: '0',
+      parentName: '',
+      subCategorys: []
+    })
+  }
+
   componentWillMount () {
     this.initColumns()
   }
@@ -97,10 +114,16 @@ export default class Category extends Component {
   render() {
 
     // 读取状态数据
-    const { categorys, subCategorys, loading, parentId} = this.state
+    const { categorys, subCategorys, loading, parentId, parentName} = this.state
 
     // 定义Card的左侧标题
-    const title = '一级分类列表'
+    const title = parentId==='0' ? '一级分类列表' : (
+      <span>
+        <LinkButton onClick={this.showCategorys}>一级分类列表</LinkButton>
+        <Icon type="arrow-right"></Icon>&nbsp;&nbsp;
+        <span>{parentName}</span>
+      </span>
+    )
     // 定义Card的右侧内容
     const extra = (
       <Button type="primary">
