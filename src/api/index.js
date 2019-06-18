@@ -25,7 +25,15 @@ export const reqAddUser = (user) => ajax(BASE + '/manage/user/add', user, 'POST'
 // 获取分类列表(一级/二级)
 export const reqCategorys = (parentId) => ajax(BASE + '/manage/category/list', {parentId})
 
+// 更新分类的名称
+export const reqUpdateCategory = ({categoryId, categoryName}) => ajax(BASE + '/manage/category/update', {categoryId, categoryName}, 'POST')
 
+function fn(params) {
+  console.log('aa')
+  console.log('aa')
+  console.log('aa')
+
+}
 
 
 // 简单测试一下
@@ -40,19 +48,22 @@ export const reqWeather = (location) => {
   const url = `http://api.map.baidu.com/telematics/v3/weather?location=${location}&output=json&ak=3p49MVra6urFRGOT9s8UBWr2`
 
   return new Promise((resolve, reject) => {
+    
     // 执行请求
     setTimeout(() => {
       jsonp(url, {}, (error, data) => {
         if (!error && data.status === 'success') {
+          debugger
+          fn()
           const {
             dayPictureUrl,
             weather
           } = data.results[0].weather_data[0]
           // 成功了, 调用reolve()指定成功的值
-          resolve(
+          resolve({
             dayPictureUrl,
             weather
-          )
+          })
         } else {
           message.error('获取天气信息失败!')
         }

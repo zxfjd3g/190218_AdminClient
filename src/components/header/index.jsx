@@ -64,6 +64,7 @@ class Header extends Component {
   */
   getWeather = async () => {
     const { dayPictureUrl, weather} = await reqWeather('北京')
+    debugger
     // 更新状态
     this.setState({
        dayPictureUrl, 

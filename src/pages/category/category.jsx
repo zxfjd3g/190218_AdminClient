@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import { Card, Table, Button, Icon, Modal} from 'antd'
+import { Card, Table, Button, Icon, Modal, message} from 'antd'
 
 
-import {reqCategorys} from '../../api'
+import { reqCategorys, reqUpdateCategory } from '../../api'
 import LinkButton from '../../components/link-button'
 import UpdateForm from './update-form'
 
@@ -125,14 +125,26 @@ export default class Category extends Component {
   */
   updateCategory = () => {
     // 进行表单验证
-    this.form.validateFields((err, values) => {
+    this.form.validateFields(async (err, values) => {
       if (!err) { // 只有验证通过才继续
+        // 隐藏修改界面
+        this.setState({
+          showStatus: 0
+        })
+
         // 得到输入的分类名称
         const categoryName = this.form.getFieldValue('categoryName')
+        // 重置输入数据
+        this.form.resetFields()
         // 得到分类的_id
         const categoryId = this.category._id
 
-        console.log('发更新请求', categoryName, categoryId)
+        // console.log('发更新请求', categoryName, categoryId)
+        const result = await reqUpdateCategory({ categoryId, categoryName })
+        if (result.status===0) {
+          message.success('更新分类成功')
+          this.getCategorys()
+        }
       }
     })
    
@@ -187,7 +199,10 @@ export default class Category extends Component {
           title="更新分类"
           visible={showStatus===1}
           onOk={this.updateCategory}
-          onCancel={() => this.setState({ showStatus: 0 })}
+          onCancel={() => {
+            this.form.resetFields()
+            this.setState({ showStatus: 0 })
+          }}
         >
           <UpdateForm categoryName={category.name} setForm={(form) => this.form = form}/>
         </Modal>
