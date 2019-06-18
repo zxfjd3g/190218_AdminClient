@@ -28,12 +28,42 @@ export const reqCategorys = (parentId) => ajax(BASE + '/manage/category/list', {
 // 更新分类的名称
 export const reqUpdateCategory = ({categoryId, categoryName}) => ajax(BASE + '/manage/category/update', {categoryId, categoryName}, 'POST')
 
-function fn(params) {
-  console.log('aa')
-  console.log('aa')
-  console.log('aa')
+// 添加分类
+export const reqAddCategory = (categoryName, parentId) => ajax('/manage/category/add', {
+  parentId,
+  categoryName
+}, 'POST')
 
-}
+// 根据分类ID获取分类
+export const reqCategory = (categoryId) => ajax('/manage/category/info', {categoryId})
+
+// 获取商品分页列表
+export const reqProducts = (pageNum, pageSize) => ajax('/manage/product/list', {pageNum, pageSize})
+
+// 根据ID/Name搜索产品分页列表
+export const reqSearchProducts = ({pageNum, pageSize, searchType, searchName}) => ajax('/manage/product/search', {
+  pageNum,
+  pageSize,
+  [searchType]: searchName,
+})
+
+// 添加/更新商品
+export const reqAddOrUpdateProduct = (product) => ajax('/manage/product/' + (product._id ? 'update' : 'add'), product, 'post')
+
+// 对商品进行上架/下架处理
+export const reqUpdateProductStatus = (productId, status) => ajax('/manage/product/updateStatus', {
+  productId,
+  status
+}, 'POST')
+
+// 删除图片
+export const reqDeleteImg = (name) => ajax('/manage/img/delete', {name}, 'post')
+
+// 更新商品的状态(上架/下架)
+export const reqUpdateStatus = (productId, status) => ajax(BASE + '/manage/product/updateStatus', {
+  productId,
+  status
+}, 'POST')
 
 
 // 简单测试一下
@@ -53,8 +83,6 @@ export const reqWeather = (location) => {
     setTimeout(() => {
       jsonp(url, {}, (error, data) => {
         if (!error && data.status === 'success') {
-          debugger
-          fn()
           const {
             dayPictureUrl,
             weather
@@ -70,8 +98,4 @@ export const reqWeather = (location) => {
       })
     }, 2000)
   })
-  
 }
-
-
-
