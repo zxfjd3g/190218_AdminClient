@@ -77,7 +77,6 @@ class Login extends React.Component {
 
   render () {
 
-    debugger
     const { getFieldDecorator } = this.props.form
 
     // 访问login界面, 如果已经登陆, 自动跳转到admin

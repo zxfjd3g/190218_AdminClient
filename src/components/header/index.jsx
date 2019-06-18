@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import {withRouter} from 'react-router-dom'
 import { Modal } from 'antd'
 
+import LinkButton from "../../components/link-button"
 import {reqWeather} from '../../api'
 import {removeUser} from "../../utils/storageUtils"
 import memoryUtils from "../../utils/memoryUtils"
@@ -121,7 +122,8 @@ class Header extends Component {
       <div className="header">
         <div className="header-top">
           <span>欢迎, {user.username}</span>
-          <a href="javascript:" onClick={this.logout}>登出</a>
+          {/* <a href="javascript:" onClick={this.logout}>登出</a> */}
+          <LinkButton onClick={this.logout}>登出</LinkButton>
         </div>
         <div className="header-bottom">
           <div className="header-bottom-left">{title}</div>
