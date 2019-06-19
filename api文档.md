@@ -435,9 +435,10 @@
         }
     }
 
-## 11. 根据ID/Name搜索产品分页列表
+## 11. 根据商品名称或描述搜索产品分页列表
 ### 请求URL：
     http://localhost:5000/manage/product/search?pageNum=1&pageSize=5&productName=T
+    http://localhost:5000/manage/product/search?pageNum=1&pageSize=5&productDesc=T
 
 ### 请求方式：
     GET

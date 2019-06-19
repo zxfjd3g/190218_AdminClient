@@ -5,6 +5,7 @@ import { Card, Table, Button, Icon, Modal, message} from 'antd'
 import { reqCategorys, reqUpdateCategory } from '../../api'
 import LinkButton from '../../components/link-button'
 import UpdateForm from './update-form'
+import AddForm from './add-form'
 
 /* 
 Admin的分类管理子路由
@@ -147,7 +148,12 @@ export default class Category extends Component {
         }
       }
     })
-   
+  }
+
+  /* 
+  添加分类
+  */
+  addCategory  = () => {
 
   }
 
@@ -178,7 +184,7 @@ export default class Category extends Component {
     )
     // 定义Card的右侧内容
     const extra = (
-      <Button type="primary">
+      <Button type="primary" onClick={() => this.setState({ showStatus: 2 })}>
         <Icon type="plus"/>
         添加
       </Button>
@@ -205,6 +211,17 @@ export default class Category extends Component {
           }}
         >
           <UpdateForm categoryName={category.name} setForm={(form) => this.form = form}/>
+        </Modal>
+        <Modal
+          title="添加分类"
+          visible={showStatus===2}
+          onOk={this.AddCategory}
+          onCancel={() => {
+            this.form.resetFields()
+            this.setState({ showStatus: 0 })
+          }}
+        >
+          <AddForm categorys={categorys} setForm={(form) => this.form = form}/>
         </Modal>
       </Card>
     )
