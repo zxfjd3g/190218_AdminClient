@@ -28,6 +28,9 @@ export const reqCategorys = (parentId) => ajax(BASE + '/manage/category/list', {
 // 更新分类的名称
 export const reqUpdateCategory = ({categoryId, categoryName}) => ajax(BASE + '/manage/category/update', {categoryId, categoryName}, 'POST')
 
+// 添加分类
+export const reqAddCategory = (categoryName, parentId) => ajax(BASE + '/manage/category/add', {categoryName, parentId}, 'POST')
+
 function fn(params) {
   console.log('aa')
   console.log('aa')

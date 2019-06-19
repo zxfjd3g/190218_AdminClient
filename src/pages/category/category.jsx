@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Card, Table, Button, Icon, Modal, message} from 'antd'
 
 
-import { reqCategorys, reqUpdateCategory } from '../../api'
+import { reqCategorys, reqUpdateCategory, reqAddCategory } from '../../api'
 import LinkButton from '../../components/link-button'
 import UpdateForm from './update-form'
 import AddForm from './add-form'
@@ -23,11 +23,12 @@ export default class Category extends Component {
 
   /* 
   获取一级或者二级列表显示
+  pId: 可能不会传, 如果没有指定用state中的parentId
   */
-  getCategorys = async () => {
+  getCategorys = async (pId) => {
     // 发请求前, 显示loading
     this.setState({ loading: true })
-    const {parentId} = this.state
+    const parentId = pId || this.state.parentId
     const result = await reqCategorys(parentId)
     // 请求结束后, 隐藏loading
     this.setState({loading: false})
@@ -153,8 +154,35 @@ export default class Category extends Component {
   /* 
   添加分类
   */
-  addCategory  = () => {
+  addCategory  = async () => {
+    this.form.validateFields(async (err, values) => {
+      if (!err) { // 只有验证通过才继续
+        this.setState({
+          showStatus: 0
+        })
+        // 获取输入的数据
+        const { categoryName, parentId } = this.form.getFieldsValue()
+        // 重置输入数据
+        this.form.resetFields()
 
+        // 请求添加
+        const result = await reqAddCategory(categoryName, parentId)
+
+        // 提示成功, 并显示最新的列表
+        if (result.status===0) {
+          message.success('添加分类成功')
+          // 1. 添加的是一级分类
+          if (parentId==='0') {
+            this.getCategorys('0')
+          // 2. 添加当前二级分类
+          } else if (parentId === this.state.parentId) {
+            this.getCategorys()
+          }
+        }
+      }
+    })
+
+    
   }
 
   componentWillMount () {
@@ -215,13 +243,13 @@ export default class Category extends Component {
         <Modal
           title="添加分类"
           visible={showStatus===2}
-          onOk={this.AddCategory}
+          onOk={this.addCategory}
           onCancel={() => {
             this.form.resetFields()
             this.setState({ showStatus: 0 })
           }}
         >
-          <AddForm categorys={categorys} setForm={(form) => this.form = form}/>
+          <AddForm categorys={categorys} parentId={parentId} setForm={(form) => this.form = form}/>
         </Modal>
       </Card>
     )

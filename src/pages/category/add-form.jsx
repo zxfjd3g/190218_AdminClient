@@ -11,6 +11,7 @@ class AddForm extends Component {
   static propTypes = {
     setForm: PropTypes.func.isRequired,
     categorys: PropTypes.array.isRequired,
+    parentId: PropTypes.string.isRequired,
   }
 
   componentWillMount () {
@@ -20,14 +21,14 @@ class AddForm extends Component {
 
   render() {
     const { getFieldDecorator } = this.props.form
-    const {categorys} = this.props
+    const {categorys, parentId} = this.props
     return (
       <Form>
 
         <Form.Item>
           {
             getFieldDecorator('parentId', {
-              initialValue: '0',
+              initialValue: parentId,
               rules: [
                 { required: true, message: '分类名称必须指定' }
               ]
