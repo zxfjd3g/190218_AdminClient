@@ -34,6 +34,24 @@ export const reqAddCategory = (categoryName, parentId) => ajax(BASE + '/manage/c
 // 获取商品分页列表
 export const reqProducts = ({pageNum, pageSize}) => ajax(BASE + '/manage/product/list', {pageNum, pageSize})
 
+// 根据商品名称/描述搜索获取商品分页列表
+export const reqSearchProducts = ({
+  pageNum,
+  pageSize,
+  searchType, // 搜索类型 值为'productDesc' / 'productName'
+  searchName // 搜索的关键字
+}) => ajax(BASE + '/manage/product/search', {
+  pageNum,
+  pageSize,
+  [searchType]: searchName
+})
+
+
+// 根据商品名称搜索获取商品分页列表
+// export const reqSearchProducts1 = ({pageNum, pageSize, productName}) => ajax(BASE + '/manage/product/search', {pageNum, pageSize, productName})
+// 根据商品描述搜索获取商品分页列表
+// export const reqSearchProducts2 = ({pageNum, pageSize, productDesc}) => ajax(BASE + '/manage/product/search', {pageNum, pageSize, productDesc})
+
 
 // 简单测试一下
 /* reqLogin('admin', 'admin').then(result => {
