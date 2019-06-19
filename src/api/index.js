@@ -46,12 +46,11 @@ export const reqSearchProducts = ({
   [searchType]: searchName
 })
 
-
-// 根据商品名称搜索获取商品分页列表
-// export const reqSearchProducts1 = ({pageNum, pageSize, productName}) => ajax(BASE + '/manage/product/search', {pageNum, pageSize, productName})
-// 根据商品描述搜索获取商品分页列表
-// export const reqSearchProducts2 = ({pageNum, pageSize, productDesc}) => ajax(BASE + '/manage/product/search', {pageNum, pageSize, productDesc})
-
+// 对商品进行上架/下架处理
+export const reqUpdateStatus = (productId, status) => ajax(BASE + '/manage/product/updateStatus', {
+  productId,
+  status
+}, 'POST')
 
 // 简单测试一下
 /* reqLogin('admin', 'admin').then(result => {

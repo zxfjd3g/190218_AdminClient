@@ -362,3 +362,29 @@
     
     3). 如何选择?
         基本根据数据多少来选择
+
+## 5. 分页显示
+    界面: <Card> / <Table> / Select / Icon / Input / Button
+    状态: products / total
+    接口请求函数需要的数据: pageNum, pageSize
+    异步获取第一页数据显示
+        调用分页的接口请求函数, 获取到当前页的products和总记录数total
+        更新状态: products / total
+    翻页:
+        绑定翻页的监听, 监听回调需要得到pageNum
+        异步获取指定页码的数据显示  
+     
+## 6. 搜索分页
+    接口请求函数需要的数据: 
+        pageSize: 每页的条目数
+        pageNum: 当前请求第几页 (从1开始)
+        productDesc / productName: searchName 根据商品描述/名称搜索
+    状态:  searchType / searchName  / 在用户操作时实时收集数据
+    异步搜索显示分页列表
+        如果searchName有值, 调用搜索的接口请求函数获取数据并更新状态
+        
+## 7. 更新商品的状态
+    初始显示: 根据product的status属性来显示  status = 1/2
+    点击切换:
+        绑定点击监听
+        异步请求更新状态

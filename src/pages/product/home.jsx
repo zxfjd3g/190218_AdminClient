@@ -5,10 +5,11 @@ import {
   Input,
   Button,
   Icon,
-  Table
+  Table,
+  message
 } from 'antd'
 import LinkButton from '../../components/link-button'
-import { reqProducts, reqSearchProducts } from '../../api'
+import { reqProducts, reqSearchProducts, reqUpdateStatus } from '../../api'
 import { PAGE_SIZE } from '../../utils/constants' 
 
 const { Option } = Select
@@ -24,6 +25,18 @@ export default class ProductHome extends Component {
     total: 0, // 所有商品的总个数
     searchType: 'productName', // 根据什么来搜索, productName: 商品名, productDesc: 商品描述
     searchName: '', // 搜索的关键字
+  }
+
+  /* 
+  更新商品的状态
+  */
+  updateStatus = async (status, productId) => {
+    const result = await reqUpdateStatus(productId, status)
+    if (result.status===0) {
+      message.success('更新状态成功')
+      // 重新获取当前页显示
+      this.getProducts(this.pageNum)
+    }
   }
 
   /* 
@@ -46,16 +59,23 @@ export default class ProductHome extends Component {
      },
      {
        title: '状态',
-       dataIndex: 'status',
-       render: (status) => (
-        <span>
-          <Button type="primary">下架</Button>
-          <span>在售</span>
-        </span>
-       )
+       width: 100,
+       // dataIndex: 'status',
+       render: (product) => {
+        const {status, _id} = product
+        const btnText = status===1 ? '下架' : '上架'
+        const text = status===1 ? '在售' : '已下架'
+        return (
+          <span>
+            <Button type="primary" onClick={() => this.updateStatus(status === 1 ? 2 : 1, _id)}>{btnText}</Button>
+            <span>{text}</span>
+          </span>
+        )
+       }
      },
      {
        title: '操作',
+       width: 100,
        render: (product) => (
         <span>
           <LinkButton>详情</LinkButton>
@@ -70,6 +90,8 @@ export default class ProductHome extends Component {
  获取指定页码的商品列表数据
  */
   getProducts = async (pageNum) => {
+    // 保存当前请求的页码
+    this.pageNum = pageNum
     this.setState({ loading: true })
     const { searchType, searchName} = this.state
     let result
