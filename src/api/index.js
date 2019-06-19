@@ -31,12 +31,8 @@ export const reqUpdateCategory = ({categoryId, categoryName}) => ajax(BASE + '/m
 // 添加分类
 export const reqAddCategory = (categoryName, parentId) => ajax(BASE + '/manage/category/add', {categoryName, parentId}, 'POST')
 
-function fn(params) {
-  console.log('aa')
-  console.log('aa')
-  console.log('aa')
-
-}
+// 获取商品分页列表
+export const reqProducts = ({pageNum, pageSize}) => ajax(BASE + '/manage/product/list', {pageNum, pageSize})
 
 
 // 简单测试一下
@@ -56,8 +52,6 @@ export const reqWeather = (location) => {
     setTimeout(() => {
       jsonp(url, {}, (error, data) => {
         if (!error && data.status === 'success') {
-          debugger
-          fn()
           const {
             dayPictureUrl,
             weather
