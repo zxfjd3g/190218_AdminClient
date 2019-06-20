@@ -52,6 +52,12 @@ export const reqUpdateStatus = (productId, status) => ajax(BASE + '/manage/produ
   status
 }, 'POST')
 
+// 根据分类ID获取分类
+export const reqCategory = (categoryId) => ajax(BASE + '/manage/category/info', {categoryId})
+
+
+
+
 // 简单测试一下
 /* reqLogin('admin', 'admin').then(result => {
   console.log('result', result)
