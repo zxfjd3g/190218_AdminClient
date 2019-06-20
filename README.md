@@ -389,3 +389,31 @@
     点击切换:
         绑定点击监听
         异步请求更新状态
+
+# day06
+## 1. ProductDetail组件
+    1). 读取商品数据: this.props.location.state.product
+    2). 显示商品信息: <Card> / List 
+    3). 异步显示商品所属分类的名称
+        pCategoryId==0 : 异步获取categoryId的分类名称
+        pCategoryId!=0: 异步获取 pCategoryId/categoryId的分类名称
+    4). Promise.all([promise1, promise2])
+        返回值是promise
+        异步得到的是所有promsie的结果的数组
+        特点: 一次发多个请求, 只有当所有请求都成功, 才成功, 并得到成功的数据,一旦有一个失败, 整个都失败
+
+## 2. js中表达式a.b的查找流程
+    先查找a(变量), 沿着作用域链
+        没找到, 抛出异常 (ReferenceError: a is not defined)
+        找到了, 得到它的值
+            基本类型的值
+            undefined/null
+            number值/string值/boolean值
+            地址值
+    接着.b
+        undefined/null: 抛出异常 (TypeError: Cannot read property 'xxx' of null)
+        number值/string值/boolean值: 自动创建对应的包装类型的对象, 查找对象上的b属性
+        地址值: 找到堆空间中对应的对象, 查找对象上的b属性
+    查找b属性:
+        先在对象自身上查找, 如果不存在, 去原型链上依次查找
+        找不到, 返回undefined
