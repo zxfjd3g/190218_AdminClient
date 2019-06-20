@@ -91,7 +91,7 @@ class LeftNav extends Component {
         )
       } else { // 添加 <SubMenu>
         // 如果请求的是当前item的children中某个item对应的path, 当前item的key就是openKey
-        const cItem = item.children.find((cItem, index) => cItem.key===path)
+        const cItem = item.children.find((cItem, index) => path.indexOf(cItem.key)===0)
         if (cItem) { // 当前请求的是某个二级菜单路由
           this.openKey = item.key
         }
@@ -125,7 +125,10 @@ class LeftNav extends Component {
   render() {
     
     // 将请求的路由路径作为选中的key
-    const selectedKey = this.props.location.pathname
+    let selectedKey = this.props.location.pathname
+    if (selectedKey.indexOf('/product')===0) {
+      selectedKey = '/product'
+    }
     // 得到要展开Submenu的key值
     const openKey = this.openKey
 

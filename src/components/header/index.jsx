@@ -49,7 +49,7 @@ class Header extends Component {
       if (item.key===path) {
         title = item.title
       } else if (item.children) {
-        const cItem = item.children.find(item => item.key===path)
+        const cItem = item.children.find(item => path.indexOf(item.key)===0)
         if (cItem) {
           title = cItem.title
         }
@@ -139,3 +139,21 @@ class Header extends Component {
 }
 
 export default withRouter(Header)
+
+/* 
+console.log(a.b)
+先查找a(变量), 沿着作用域链
+  没找到, 抛出异常 (ReferenceError: a is not defined)
+  找到了, 得到它的值
+    基本类型的值
+      undefined/null
+      number值/string值/boolean值
+    地址值
+接着.b
+    undefined/null: 抛出异常 (TypeError: Cannot read property 'xxx' of null)
+    number值/string值/boolean值: 自动创建对应的包装类型的对象, 查找对象上的b属性
+    地址值: 找到堆空间中对应的对象, 查找对象上的b属性
+查找b属性:
+    先在对象自身上查找, 如果不存在, 去原型链上依次查找
+    找不到, 返回undefined
+*/
