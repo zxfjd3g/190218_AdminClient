@@ -344,8 +344,9 @@
         <Route> / <Switch> / <Redirect>
     
     2). 匹配路由的逻辑:
-        默认: 逐层匹配   <Route path='/product' component={ProductHome}/>
-        exact属性: 完全匹配
+        模糊匹配(默认): 开头的部分是否一致   请求路径: /product/xxx
+        精确匹配(exact属性): 完全一致    请求路径: /product
+        <Route path='/product' component={ProductHome}/>
         
 ## 4. 分页实现技术(2种)
     1). 前台分页
