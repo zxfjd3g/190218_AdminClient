@@ -13,7 +13,7 @@ mdn文档: https: //developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Gl
   抛出错误: throw error
 3. 错误对象
   message属性: 错误相关信息
-  stack属性: 
+  stack属性: 函数调用栈记录信息
 
 */
 /* 1. 常见的异常错误 */
@@ -29,8 +29,8 @@ mdn文档: https: //developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Gl
 // a3.xxx()
 
 // 3. RangeError: Maximum call stack size exceeded
-/* 
-function fn() {
+
+/* function fn() {
   fn()
 }
 fn() */
@@ -40,20 +40,21 @@ fn() */
 
 
 /* 2. 错误处理 */
-/* 
+
 // 捕获错误: try ... catch
-try {
+/* try {
   let a2 = null
+  debugger
   console.log(a2.xxx())
 } catch (error) {
   console.log('出错了', error.message)
   console.log(error.stack)
 }
-console.log('catch()之后')
- */
+console.log('catch()之后') */
+
 
  // 抛出错误: throw error
- /* 
+ 
 function fn() {
   if (Date.now()%2===0) {
     throw new Error('不能在时间是偶数时处理')
@@ -61,11 +62,13 @@ function fn() {
     console.log('处理任务')
   }
 }
+
+fn()
 try {
   fn()
 } catch (error) {
   console.log('捕获到异常:', error.message)
-} */
+}
 
 
 

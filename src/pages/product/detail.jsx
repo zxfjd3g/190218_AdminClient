@@ -37,6 +37,12 @@ export default class ProductDetail extends Component {
       // const cName1 = result1.data.name
       // const cName2 = result2.data.name
 
+
+      /* const p1 = reqCategory(pCategoryId)
+      const p2 = reqCategory(categoryId)
+      const result1 = await p1
+      const result2 = await p2 */
+
       /* 
       使用Promise.all()一次发送多个请求
       只有当都成功了, 整体才成功, 并返回包含所有成功数据的数组
