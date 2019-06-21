@@ -10,6 +10,7 @@ import {
 
 import LinkButton from '../../components/link-button'
 import PicturesWall from './pictures-wall'
+import RichTextEditor from './rich-text-editor'
 
 import { reqCategorys } from '../../api'
 
@@ -24,11 +25,22 @@ class ProductAddUpdate extends Component {
    state = {
      options: []
   }
+
+  constructor(props) {
+    super(props);
+    // 创建一个ref对象容器
+    this.pwRef = React.createRef()
+    this.editorRef = React.createRef()
+  }
   
   submit = () => {
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('验证通过', values);
+        // 读取所有上传图片文件名数组
+        const imgs = this.pwRef.current.getImgs()
+        // 读取富文本内容(html格式字符串)
+        const detail = this.editorRef.current.getDetail()
+        console.log('验证通过', values, imgs, detail)
       }
     })
   }
@@ -252,12 +264,13 @@ class ProductAddUpdate extends Component {
             
           </Item>
           <Item label="商品图片">
-            <PicturesWall/>
+            <PicturesWall ref={this.pwRef} imgs={product.imgs}/>
           </Item>
           <Item
             label="商品详情"
-          >
-            <span>商品详情信</span>
+            wrapperCol={{ span: 18 }}
+        >
+            <RichTextEditor ref={this.editorRef} detail={product.detail}/>
           </Item>
           <Button type='primary' onClick={this.submit}>提交</Button>
         </Form>
@@ -267,3 +280,10 @@ class ProductAddUpdate extends Component {
 }
 
 export default Form.create()(ProductAddUpdate)
+
+
+/* 
+1. 子组件调用父组件的方法?  父组件通过标签属性将方法传递给子组件, 子组件就可以调用
+2. 父组件调用子组件的方法?  在父组件中通过ref得到子组件对象, 进而调用其方法
+
+*/
