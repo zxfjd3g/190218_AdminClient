@@ -54,6 +54,7 @@ export default class RichTextEditor extends Component {
         xhr.send(data);
         xhr.addEventListener('load', () => {
           const response = JSON.parse(xhr.responseText);
+          // resolve(response)
           resolve({ data: { link: response.data.url } });
         });
         xhr.addEventListener('error', () => {

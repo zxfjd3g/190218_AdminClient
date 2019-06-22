@@ -6,13 +6,14 @@ import {
   Input,
   Button,
   Cascader,
+  message
 } from 'antd'
 
 import LinkButton from '../../components/link-button'
 import PicturesWall from './pictures-wall'
 import RichTextEditor from './rich-text-editor'
 
-import { reqCategorys } from '../../api'
+import { reqCategorys, reqAddOrUpdateProduct } from '../../api'
 
 const { Item } = Form
 const { TextArea } = Input
@@ -34,13 +35,47 @@ class ProductAddUpdate extends Component {
   }
   
   submit = () => {
-    this.props.form.validateFields((err, values) => {
+    this.props.form.validateFields(async (err, values) => {
       if (!err) {
+        // 1. 根据输入, 准备一个product对象
+        const { name, desc, price, categoryIds } = values
+        let categoryId, pCategoryId
+        if (categoryIds.length==1) {
+          pCategoryId = '0'
+          categoryId = categoryIds[0]
+        } else {
+          pCategoryId = categoryIds[0]
+          categoryId = categoryIds[1]
+        }
         // 读取所有上传图片文件名数组
         const imgs = this.pwRef.current.getImgs()
         // 读取富文本内容(html格式字符串)
         const detail = this.editorRef.current.getDetail()
         console.log('验证通过', values, imgs, detail)
+
+        const product = {
+          name,
+          desc,
+          price,
+          categoryId,
+          pCategoryId,
+          imgs,
+          detail
+        }
+        // 如果是更新, 需要指定_id属性
+        if (this.isUpdate) {
+          product._id = this.product._id
+        }
+
+        // 2. 发送添加/更新的请求
+        const result = await reqAddOrUpdateProduct(product)
+
+        // 3. 根据结果, 进行响应
+        if (result.status===0) {
+          message.success((this.isUpdate ? '更新' : '添加') + '商品成功')
+          this.props.history.goBack()
+        }
+
       }
     })
   }

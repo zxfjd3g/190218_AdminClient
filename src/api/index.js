@@ -58,6 +58,13 @@ export const reqCategory = (categoryId) => ajax(BASE + '/manage/category/info', 
 // 删除图片
 export const reqDeleteImg = (name) => ajax(BASE + '/manage/img/delete', {name}, 'POST')
 
+// 添加/更新商品
+export const reqAddOrUpdateProduct = (product) => ajax(BASE + '/manage/product/'+ (product._id ? 'update' : 'add'), product, 'POST')
+
+// 添加商品
+// export const reqAddProduct = (product) => ajax(BASE + '/manage/product/add', product, 'POST')
+// 更新商品
+// export const reqUpdateProduct = (product) => ajax(BASE + '/manage/product/update', product, 'POST')
 
 
 // 简单测试一下
