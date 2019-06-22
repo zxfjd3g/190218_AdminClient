@@ -102,7 +102,7 @@
 ### 参数类型
 
 	|参数		|是否必选 |类型     |说明
-	|_id         |Y       |string   |ID
+	  |_id         |Y       |string   |ID
     |username    |N       |string   |用户名
     |phone       |N       |string   |手机号
     |email       |N       |string   |邮箱

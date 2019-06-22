@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import {Link, withRouter } from 'react-router-dom'
 import { Menu, Icon } from 'antd'
 
+import memoryUtils from '../../utils/memoryUtils'
 import menuList from "../../config/menuConfig"   // ===> [<Item/>, <SubMenu/>>]
 import logo from '../../assets/images/logo.png'
 import './index.less'
@@ -15,10 +16,41 @@ class LeftNav extends Component {
 
 
   /* 
+  判断当前用户是否有指定item的权限
+  */
+  hasAuth = (item) => {
+    // 得到当前用户的所有权限
+    const user = memoryUtils.user
+
+    /* 
+    1. 如果当前用户是admin
+    2. 如果当前item标识为公开
+    3. item的key是否在当前用户对应的角色的权限列表中
+    4. 如果有item的子节点的权限, 当前item就得存在
+    */
+    // 1. 如果当前用户是admin
+    // 2. 如果当前item标识为公开
+    // 3. item的key是否在当前用户对应的角色的权限列表中
+    
+    debugger
+    if (user.username === 'admin' || item.isPublic || user.role.menus.indexOf(item.key) !== -1) {
+      return true
+    } else if (item.children) {
+      // 4. 如果有item的子节点的权限, 当前item就得存在
+      const cItem = item.children.find(cItem => user.role.menus.indexOf(cItem.key) !== -1)
+      if (cItem) {
+        return true
+      }
+    }
+
+    return false
+  }
+
+  /* 
   根据menu中数据中数组生成包含<Item> / <SubMenu>的数组
   关键技术: array.map() + 递归调用
   */
-  getMenusNodes = (menuList) => {
+  getMenuNodes = (menuList) => {
     
     /* 
     {
@@ -30,32 +62,35 @@ class LeftNav extends Component {
     */
     return menuList.map(item => {
 
-      // 返回<Item></Item>
-      if (!item.children) {
-        return (
-          <Item key={item.key}>
-            <Link to={item.key}>
-              <Icon type={item.icon} />
-              <span>{item.title}</span>
-            </Link>
-          </Item>
-        )
-      } else {  // 返回<SubMenu></SubMenu>
-        return (
-          <SubMenu
-            key={item.key}
-            title={
-              <span>
+      // 只有当当前用户有此item对应的权限时才生成对应的菜单项
+      if (this.hasAuth(item)) {
+        // 返回<Item></Item>
+        if (!item.children) {
+          return (
+            <Item key={item.key}>
+              <Link to={item.key}>
                 <Icon type={item.icon} />
                 <span>{item.title}</span>
-              </span>
-            }
-          >
-            {
-              this.getMenusNodes(item.children)
-            }
-          </SubMenu>
-        )
+              </Link>
+            </Item>
+          )
+        } else {  // 返回<SubMenu></SubMenu>
+          return (
+            <SubMenu
+              key={item.key}
+              title={
+                <span>
+                  <Icon type={item.icon} />
+                  <span>{item.title}</span>
+                </span>
+              }
+            >
+              {
+                this.getMenuNodes(item.children)
+              }
+            </SubMenu>
+          )
+        }
       }
     })
   }
@@ -79,36 +114,38 @@ class LeftNav extends Component {
     const path = this.props.location.pathname
 
     return menuList.reduce((pre, item) => {
-      // 添加 <Item>
-      if (!item.children) {
-        pre.push(
-          <Item key={item.key}>
-            <Link to={item.key}>
-              <Icon type={item.icon} />
-              <span>{item.title}</span>
-            </Link>
-          </Item>
-        )
-      } else { // 添加 <SubMenu>
-        // 如果请求的是当前item的children中某个item对应的path, 当前item的key就是openKey
-        const cItem = item.children.find((cItem, index) => path.indexOf(cItem.key)===0)
-        if (cItem) { // 当前请求的是某个二级菜单路由
-          this.openKey = item.key
-        }
-
-        pre.push(
-          <SubMenu
-            key={item.key}
-            title={
-              <span>
+      if (this.hasAuth(item)) {
+        // 添加 <Item>
+        if (!item.children) {
+          pre.push(
+            <Item key={item.key}>
+              <Link to={item.key}>
                 <Icon type={item.icon} />
                 <span>{item.title}</span>
-              </span>
-            }
-          >
-            {this.getMenuNodes2(item.children)}
-          </SubMenu>
-        )
+              </Link>
+            </Item>
+          )
+        } else { // 添加 <SubMenu>
+          // 如果请求的是当前item的children中某个item对应的path, 当前item的key就是openKey
+          const cItem = item.children.find((cItem, index) => path.indexOf(cItem.key) === 0)
+          if (cItem) { // 当前请求的是某个二级菜单路由
+            this.openKey = item.key
+          }
+
+          pre.push(
+            <SubMenu
+              key={item.key}
+              title={
+                <span>
+                  <Icon type={item.icon} />
+                  <span>{item.title}</span>
+                </span>
+              }
+            >
+              {this.getMenuNodes2(item.children)}
+            </SubMenu>
+          )
+        }
       }
       
       return pre
