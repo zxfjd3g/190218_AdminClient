@@ -32,7 +32,6 @@ class LeftNav extends Component {
     // 2. 如果当前item标识为公开
     // 3. item的key是否在当前用户对应的角色的权限列表中
     
-    debugger
     if (user.username === 'admin' || item.isPublic || user.role.menus.indexOf(item.key) !== -1) {
       return true
     } else if (item.children) {

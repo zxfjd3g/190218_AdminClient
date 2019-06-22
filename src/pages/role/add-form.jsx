@@ -19,6 +19,7 @@ class AddForm extends PureComponent {
   }
 
   render() {
+    // console.log('add-form render()')
     const { getFieldDecorator } = this.props.form
     const formItemLayout = {
       labelCol: { span: 5 },

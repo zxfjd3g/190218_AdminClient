@@ -25,16 +25,25 @@
 
    关于异步的setState()
       1). 多次调用, 如何处理?
-          setState({}): 合并更新一次状态, 只调用一次render()更新界面 ---状态更新和界面更新都合并了
-          setState(fn): 更新多次状态, 但只调用一次render()更新界面  ---状态更新没有合并, 但界面更新合并了
+          setState({}): 合并更新一次状态, 只调用一次render()更新界面 ---状态更新和更新render都合并了
+          setState(fn): 更新多次状态, 但只调用一次render()更新界面  ---状态更新没有合并, 但更新render合并了
       2). 如何得到异步更新后的状态数据?
           在setState()的callback回调函数中
-
    */
   class StateTest extends React.Component {
 
     state = {
       count: 0,
+      m: 2,
+    }
+
+    /*
+    react生命周期勾子中, setState()是异步更新状态
+    */
+    componentDidMount () {
+      console.log('componentDidMount setState()之前', this.state.count)
+      this.setState(state => ({count: state.count + 1})) // setState()执行之后状态数据是否已更新
+      console.log('componentDidMount setState()之后', this.state.count)
     }
 
     /*
@@ -44,15 +53,6 @@
       console.log('update1 setState()之前', this.state.count)
       this.setState(state => ({count: state.count + 1}))
       console.log('update1 setState()之后', this.state.count)
-    }
-
-    /*
-     react生命周期勾子中, setState()是异步更新状态
-     */
-    componentDidMount () {
-      console.log('componentDidMount setState()之前', this.state.count)
-      this.setState(state => ({count: state.count + 1}))
-      console.log('componentDidMount setState()之后', this.state.count)
     }
 
     /*
@@ -79,13 +79,23 @@
         this.setState(state => ({count: state.count + 1}))
         console.log('Promise setState()之后', this.state.count)
       })
+
+      /* new Promise((resolve, reject) => {
+        console.log('Promise setState()之前', this.state.count)
+        this.setState(state => ({count: state.count + 1}))
+        console.log('Promise setState()之后', this.state.count)
+      }) */
     }
 
 
+    /* 
+    多次调用, 如何处理?
+    */
     update5 = () => {
       console.log('onclick setState()之前', this.state.count)
       this.setState(state => ({count: state.count + 1}))
       console.log('onclick setState()之后', this.state.count)
+     
       console.log('onclick setState()之前2', this.state.count)
       this.setState(state => ({count: state.count + 1}))
       console.log('onclick setState()之后2', this.state.count)
@@ -95,6 +105,7 @@
       console.log('onclick setState()之前', this.state.count)
       this.setState({count: this.state.count + 1})
       console.log('onclick setState()之后', this.state.count)
+    
       console.log('onclick setState()之前2', this.state.count)
       this.setState({count: this.state.count + 1})
       console.log('onclick setState()之后2', this.state.count)

@@ -108,6 +108,10 @@ export default class Role extends Component {
           message.success('保存角色成功')
           const role = result.data
           const roles = this.state.roles
+         
+          // roles.push(role)
+          // this.setState({roles})
+
           this.setState({
             roles: [...roles, role]
           })
@@ -147,6 +151,7 @@ export default class Role extends Component {
   }
 
   render() {
+    // console.log('role render()')
     const { roles, isShowAdd, isShowAuth } = this.state
     const role = this.role || {}
 

@@ -80,7 +80,7 @@
     /*
     用来决定当前组件是否应该重新render(), 如果返回true, 就会去重新render(), 否则结束
      */
-    /*shouldComponentUpdate (nextProps, nextState) {
+    /*shouldComponentUpdate (nextProps, state) {
       console.log('shouldComponentUpdate()')
       // 比较新旧props中的和state数据, 如果没有一个变化的返回false, 否则true
       if(this.props.m1===nextProps.m1 && this.state.m2===nextState.m2) {

@@ -78,6 +78,7 @@ export default class AuthForm extends Component {
   }
 
   render() {
+    // console.log('auth-form render()')
     const { checkedKeys } = this.state 
     const { role } = this.props
 
