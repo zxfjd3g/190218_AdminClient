@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import {
   Form,
@@ -15,7 +15,7 @@ const Item = Form.Item
 /*
 添加分类的form组件
  */
-export default class AuthForm extends Component {
+export default class AuthForm extends PureComponent {
 
   static propTypes = {
     role: PropTypes.object
@@ -27,7 +27,6 @@ export default class AuthForm extends Component {
 
   constructor (props) {
     super(props)
-    debugger
     // 读取当前角色的权限
     const menus = this.props.role.menus
     // 初始化状态
@@ -78,7 +77,8 @@ export default class AuthForm extends Component {
   }
 
   render() {
-    // console.log('auth-form render()')
+    console.log('auth-form render()')
+
     const { checkedKeys } = this.state 
     const { role } = this.props
 

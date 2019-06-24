@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import {
   Card,
   Button,
@@ -18,7 +18,7 @@ import memoryUtils from '../../utils/memoryUtils'
 /*
 角色路由
  */
-export default class Role extends Component {
+export default class Role extends PureComponent {
 
   state = {
     roles: [], // 所有角色的列表
@@ -151,7 +151,7 @@ export default class Role extends Component {
   }
 
   render() {
-    // console.log('role render()')
+    console.log('role render()')
     const { roles, isShowAdd, isShowAuth } = this.state
     const role = this.role || {}
 

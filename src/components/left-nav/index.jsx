@@ -91,6 +91,7 @@ class LeftNav extends Component {
           )
         }
       }
+      return undefined
     })
   }
 

@@ -13,7 +13,7 @@ function getBase64(file) {
   });
 }
 
-export default class PicturesWall extends React.Component {
+export default class PicturesWall extends React.PureComponent {
 
   static propTypes = {
     imgs: PropTypes.array
@@ -85,7 +85,10 @@ export default class PicturesWall extends React.Component {
     }
 
     // 更新fileList状态数据
-    this.setState({ fileList })
+    this.setState({ 
+      fileList: [...fileList]
+      // fileList
+     })
   }
 
   componentWillMount () {
@@ -105,6 +108,7 @@ export default class PicturesWall extends React.Component {
   }
 
   render() {
+    console.log('picture render()')
     const { previewVisible, previewImage, fileList } = this.state;
     const uploadButton = (
       <div>

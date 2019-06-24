@@ -40,7 +40,7 @@ class ProductAddUpdate extends Component {
         // 1. 根据输入, 准备一个product对象
         const { name, desc, price, categoryIds } = values
         let categoryId, pCategoryId
-        if (categoryIds.length==1) {
+        if (categoryIds.length===1) {
           pCategoryId = '0'
           categoryId = categoryIds[0]
         } else {

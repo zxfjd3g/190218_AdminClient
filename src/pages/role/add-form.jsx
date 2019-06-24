@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import {
   Form,
@@ -8,7 +8,7 @@ import {
 /*
 用来添加角色的form组件
  */
-class AddForm extends PureComponent {
+class AddForm extends Component {
 
   static propTypes = {
     setForm: PropTypes.func.isRequired
@@ -19,7 +19,6 @@ class AddForm extends PureComponent {
   }
 
   render() {
-    // console.log('add-form render()')
     const { getFieldDecorator } = this.props.form
     const formItemLayout = {
       labelCol: { span: 5 },
