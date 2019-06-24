@@ -1,10 +1,14 @@
 /* 
 包含所有管理状态数据的reducer函数的模块
+reducer函数内部不要直接改变状态数据对象内部的数据, 而是返回一个新的数据
 */
 import {combineReducers} from 'redux'
 import {getUser} from '../utils/storageUtils'
 import {
-  SET_HEADER_TITLE
+  SET_HEADER_TITLE,
+  RECEIVE_USER,
+  ERROR_MSG,
+  RESET_USER
 } from './action-types'
 
 // 管理头部标题的reducer函数
@@ -18,12 +22,19 @@ function headerTitle(state=initHeaderTitle, action) {
   }
 }
 
-// 管理登陆用户信息的reducer函数
+// 管理登陆用户信息的reducer函数   {_id: 'aaa', errorMsg: 'xxxx'}
 const initUser = getUser()  // 初始值为local中存储的user
 
-function user(state = initUser, action) {
+function user(state = initUser, action) {  
   switch (action.type) {
-
+    case RECEIVE_USER:
+      return action.data
+    case ERROR_MSG:
+      // state.errorMsg = action.data
+      // return state
+      return {...state, errorMsg: action.data}
+    case RESET_USER:
+      return {}
     default:
       return state
   }

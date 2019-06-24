@@ -6,6 +6,7 @@ import {
   Modal,
   message,
 } from 'antd'
+import {connect} from 'react-redux'
 
 import LinkButton from '../../components/link-button'
 import { PAGE_SIZE } from "../../utils/constants"
@@ -13,12 +14,11 @@ import { reqRoles, reqAddRole, reqUpdateRole } from '../../api'
 import AddForm from './add-form'
 import AuthForm from './auth-form'
 import { formateDate } from '../../utils/dateUtils'
-import memoryUtils from '../../utils/memoryUtils'
 
 /*
 角色路由
  */
-export default class Role extends PureComponent {
+class Role extends PureComponent {
 
   state = {
     roles: [], // 所有角色的列表
@@ -132,7 +132,7 @@ export default class Role extends PureComponent {
     const role = this.role
     role.menus = this.authRef.current.getMenus()
     role.auth_time = Date.now()
-    role.auth_name = memoryUtils.user.username
+    role.auth_name = this.props.user.username
     // 发请求更新用户
     const result = await reqUpdateRole(role)
     if (result.status === 0) {
@@ -199,3 +199,9 @@ export default class Role extends PureComponent {
     )
   }
 }
+
+
+export default connect(
+  state => ({user: state.user}),
+  {}
+)(Role)

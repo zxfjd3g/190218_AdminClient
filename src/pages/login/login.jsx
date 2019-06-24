@@ -4,14 +4,13 @@ import {
   Icon, 
   Input,
   Button, 
-  message
 } from 'antd'
-import { Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom"
+import { connect } from 'react-redux'
 
-import { reqLogin } from "../../api";
+import {login} from '../../redux/actions'
 import logo from "../../assets/images/logo.png"
 import './login.less'
-import memoryUtils from '../../utils/memoryUtils'
 import {saveUser} from '../../utils/storageUtils'
 
 const Item = Form.Item
@@ -29,18 +28,7 @@ class Login extends React.Component {
       if (!err) { // 验证成功了
         // console.log('发登陆ajax请求: ', values)
         const {username, password} = values
-        const result = await reqLogin(username, password) // {status: 0, data: user对象} | {status: 1, msg: 'xxx'}
-        // 如果登陆成功了
-        if (result.status===0) {
-          // 保存用户信息
-          const user = result.data
-          saveUser(user)// 保存了local文件中
-          memoryUtils.user = user // 保存在内存中
-          // 跳转到admin界面
-          this.props.history.replace('/')
-        } else { // 如果登陆失败了
-          message.error(result.msg, 2)
-        }
+        this.props.login(username, password)
       }
     })
 
@@ -79,9 +67,10 @@ class Login extends React.Component {
 
     const { getFieldDecorator } = this.props.form
 
+    const user = this.props.user
     // 访问login界面, 如果已经登陆, 自动跳转到admin
-    if (memoryUtils.user._id) {
-      return <Redirect to="/"/>
+    if (user._id) {
+      return <Redirect to="/home"/>
     }
 
     return (
@@ -91,6 +80,7 @@ class Login extends React.Component {
           <h1>React项目: 后台管理系统</h1>
         </header>
         <section className="login-content">
+          <div style={{ color: 'red' }}>{user.errorMsg}</div>
           <h2>用户登陆</h2>
           <Form onSubmit={this.handleSubmit} className="login-form">
             <Item>
@@ -150,7 +140,12 @@ Form.create()返回函数包装一个Form组件生成一个新的组件: Form(Lo
 Login会接收到一个form属性对象
 */
 const WrapperLogin = Form.create()(Login)
-export default WrapperLogin
+export default connect(
+  state => ({
+    user: state.user
+  }),
+  { login }
+)(WrapperLogin)
 
 
 /*
