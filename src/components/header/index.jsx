@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import {withRouter} from 'react-router-dom'
 import { Modal } from 'antd'
+import {connect} from 'react-redux'
 
 import LinkButton from "../../components/link-button"
 import {reqWeather} from '../../api'
@@ -15,9 +16,6 @@ Admin头部界面
 */
 class Header extends Component {
 
-  static propTypes = { // 给Header(类对象)添加的属性
-
-  }
   // 初始化状态
   state = { // 给Header的实例(组件对象)添加属性
     currentTime: formateDate(Date.now()), // 当前时间字符串
@@ -114,7 +112,7 @@ class Header extends Component {
     // 得到当前登陆的用户
     const { user } = memoryUtils
     // 得到当前请求路径对应的title
-    const title = this.getTitle()
+    const title = this.props.headerTitle
 
 
 
@@ -138,7 +136,10 @@ class Header extends Component {
   }
 }
 
-export default withRouter(Header)
+export default connect(
+  state => ({ headerTitle: state.headerTitle }),
+  {}
+)(withRouter(Header))
 
 /* 
 console.log(a.b)

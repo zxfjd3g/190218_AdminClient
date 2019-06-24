@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import {Link, withRouter } from 'react-router-dom'
 import { Menu, Icon } from 'antd'
+import { connect } from 'react-redux'
 
+import { setHeaderTitle } from '../../redux/actions'
 import memoryUtils from '../../utils/memoryUtils'
 import menuList from "../../config/menuConfig"   // ===> [<Item/>, <SubMenu/>>]
 import logo from '../../assets/images/logo.png'
@@ -115,10 +117,16 @@ class LeftNav extends Component {
 
     return menuList.reduce((pre, item) => {
       if (this.hasAuth(item)) {
+
+        // 得到需要选中的item的title, 去更新headerTitle状态
+        if (path===item.key || path.indexOf(item.key)===0) {
+          this.props.setHeaderTitle(item.title)
+        }
+
         // 添加 <Item>
         if (!item.children) {
           pre.push(
-            <Item key={item.key}>
+            <Item key={item.key} onClick={() => this.props.setHeaderTitle(item.title)}>
               <Link to={item.key}>
                 <Icon type={item.icon} />
                 <span>{item.title}</span>
@@ -227,4 +235,7 @@ class LeftNav extends Component {
 新组件会向非路由组件传递3个属性: history/location/match => 非路由组件也可以使用路由相关语法
 withRouter是一个高阶组件
 */
-export default withRouter(LeftNav)
+export default connect(
+  state => ({}),
+  {setHeaderTitle}
+)(withRouter(LeftNav))
