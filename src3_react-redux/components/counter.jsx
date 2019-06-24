@@ -11,7 +11,6 @@ export default class App extends Component {
     count: PropTypes.number.isRequired, // 一般属性
     increment: PropTypes.func.isRequired, // 函数属性
     decrement: PropTypes.func.isRequired,
-    incrementAsync: PropTypes.func.isRequired,
   }
 
   constructor (props) {
@@ -40,7 +39,9 @@ export default class App extends Component {
 
   incrementAsync = () => {
     const number = this.numberRef.current.value * 1
-    this.props.incrementAsync(number)
+    setTimeout(() => {
+      this.props.increment(number)
+    }, 1000)
   }
   
   render () {

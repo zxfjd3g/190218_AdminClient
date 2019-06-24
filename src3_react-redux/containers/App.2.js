@@ -1,6 +1,6 @@
 import {connect} from 'react-redux'
 
-import {increment, decrement, incrementAsync} from '../redux/actions'
+import {increment, decrement} from '../redux/actions'
 import Counter from '../components/counter'
 
 /* 
@@ -26,8 +26,7 @@ const mapStateToProps = state => ({count: state, name: 'atguigu'})
  */
 const mapDispatchToProps = {
   increment,
-  decrement,
-  incrementAsync
+  decrement
 }
 const ContainerComp = connect(
   // 将store中的state数据映射成一般属性传递UI组件

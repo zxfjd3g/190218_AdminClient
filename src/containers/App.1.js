@@ -1,6 +1,11 @@
 import {connect} from 'react-redux'
 
-import {increment, decrement} from '../redux/actions'
+import {
+  increment,
+  decrement,
+  incrementAsync
+} from '../redux/actions'
+
 import Counter from '../components/counter'
 
 /* 
@@ -22,6 +27,7 @@ const mapStateToProps = state => ({count: state, name: 'atguigu'})
 const mapDispatchToProps = (dispatch) => ({
   increment: number => dispatch(increment(number)),
   decrement: number => dispatch(decrement(number)),
+  incrementAsync: number => dispatch(incrementAsync(number))
 })
 
 const ContainerComp = connect(
