@@ -1,15 +1,13 @@
 import React, {Component} from 'react'
-import PropTypes from 'prop-types'
 
 /* 
 应用根组件
 */
 export default class App extends Component {
 
-  static propTypes = {
-    store: PropTypes.object.isRequired
+  state = {
+    count: 0
   }
-
 
   constructor (props) {
     super(props)
@@ -18,18 +16,18 @@ export default class App extends Component {
 
   increment = () => {
     const number = this.numberRef.current.value * 1
-    this.props.store.dispatch({type: 'INCREMENT', number})
+    this.setState(state => ({count: state.count + number}))
   }
 
   decrement = () => {
     const number = this.numberRef.current.value * 1
-    this.props.store.dispatch({type: 'DECREMENT', number})
+    this.setState(state => ({count: state.count - number}))
   }
 
   incrementIfOdd = () => {
     const number = this.numberRef.current.value * 1
-    if (this.props.store.getState() % 2===1) {
-      this.props.store.dispatch({type: 'INCREMENT', number})
+    if (this.state.count % 2===1) {
+      this.setState(state => ({count: state.count + number}))
     }
     
   }
@@ -37,15 +35,14 @@ export default class App extends Component {
   incrementAsync = () => {
     const number = this.numberRef.current.value * 1
     setTimeout(() => {
-      this.props.store.dispatch({type: 'INCREMENT', number})
+      this.setState(state => ({count: state.count + number}))
     }, 1000)
   }
   
   render () {
-    const count = this.props.store.getState()
     return (
      <div>
-       <p>click {count} times </p>
+       <p>click {this.state.count} times </p>
 
        <select ref={this.numberRef}>
          <option value="1">1</option>
